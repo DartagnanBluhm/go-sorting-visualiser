@@ -1,0 +1,73 @@
+@import url(fontawesome-all.min.css);
+@viewport {
+  width: device-width;
+}
+
+* {
+  font-size: 100%;
+  font: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  line-height: 1;
+  background: #1b1f22;
+  color: #ffffff;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.body-wrapper {
+  padding-left: 30px;
+  padding-right: 30px;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.body-wrapper .top-content {
+  flex: 0 1 auto;
+}
+
+.body-wrapper .top-content h1 {
+  margin: 0;
+  font-size: 36px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.body-wrapper .top-content .body-controls {
+  border: solid 1px #ffffff;
+  padding: 5px;
+  align-self: center;
+}
+
+.body-wrapper .sorting-visualisation {
+  border: solid 1px #ffffff;
+  padding: 5px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-end;
+}
+
+.body-wrapper .sorting-visualisation .bar{
+    border: solid 1px #ffffff;
+    background-color: rgba(255, 255, 255, 0.075);
+    flex-direction: column;
+    width: 0.1%
+}
+
+.body-wrapper .sorting-visualisation #bar-1{
+    height: 10px;
+}
