@@ -67,7 +67,3 @@ body {
     flex-direction: column;
     width: 0.1%
 }
-
-.body-wrapper .sorting-visualisation #bar-1{
-    height: 10px;
-}
