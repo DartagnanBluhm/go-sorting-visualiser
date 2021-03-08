@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-
 	"github.com/gofiber/fiber"
 )
 
@@ -14,11 +13,9 @@ func main() {
 	app := fiber.New()
 	app.Static("/css", "./public/assets/css")
 	app.Static("/js", "./public/assets/js")
-	app.Get("/", initVisualiser)
+	app.Get("/", func(c *fiber.Ctx) error {
+		err := c.SendFile("./public/assets/index.html", false)
+	 	return err
+	})
 	log.Fatal(app.Listen(port))
-}
-
-func initVisualiser(c *fiber.Ctx) error {
-	err := c.SendFile("./public/assets/index.html", false)
-	return err
 }
