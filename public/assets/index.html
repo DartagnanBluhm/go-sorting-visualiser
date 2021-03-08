@@ -12,7 +12,38 @@
     <div class="body-wrapper">
         <div class="top-content">
             <h1>Sorting Visualiser</h1>
-            <div class="body-controls"></div>
+            <div class="body-controls">
+                <div class="body-controls-algorithm-selector">
+                    <label for="sorting-algorithm" id="alg-dropdown-label">sorting algorithm</label>
+                    <select name="sorting-algorithm" id="alg-dropdown">
+                        <option value="insertion">Insertion sort</option>
+                        <option value="merge">Merge sort</option>
+                        <option value="bubble">Bubble sort</option>
+                        <option value="selection">Selection sort</option>
+                        <option value="heap">Heap sort</option>
+                        <option value="radix">Radix sort</option>
+                        <option value="bogo">Bogosort</option>
+                    </select>
+                </div>
+                <div class="body-controls-bar-number-input">
+                    <label for="number-textarea" id="sorting-bar-number-label">element number</label>
+                    <div class="bar-number-combo">
+                        <input name="number-textarea" type="number" id="sorting-bar-number">
+                        <div class="button">
+                            <button id="bar-shuffle" onclick="shuffleBars()">Shuffle</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="body-controls-slider">
+                    <label for="slider" id="sort-speed-label">action speed (time(100ms) between actions)</label>
+                    <input name="slider" type="range" min="1" max="3000" value="100" class="slider"
+                        id="sort-speed" oninput="displayValue()">
+                </div>
+                <div class="body-controls-buttons">
+                    <button id="sort-start">Start</button>
+                    <button id="sort-stop">Stop</button>
+                </div>
+            </div>
         </div>
         <div id="bar-container" class="sorting-visualisation">
         </div>

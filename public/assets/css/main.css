@@ -17,11 +17,12 @@ body {
 body {
   line-height: 1;
   background: #1b1f22;
-  color: #ffffff;
+  color: #bebebe;
   font-family: "Source Sans Pro", sans-serif;
-  font-weight: 300;
+  font-weight: 550;
   font-size: 16px;
   line-height: 1.5;
+  text-transform: uppercase;
 }
 
 .body-wrapper {
@@ -39,20 +40,120 @@ body {
 .body-wrapper .top-content h1 {
   margin: 0;
   font-size: 36px;
-  text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 600;
   text-align: center;
 }
 
 .body-wrapper .top-content .body-controls {
-  border: solid 1px #ffffff;
+  border: solid 1px #bebebe;
   padding: 5px;
   align-self: center;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-algorithm-selector {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  align-items: center;
+  flex: 1 1 auto;
+  border: solid 1px #bebebe;
+  order: 1;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown {
+  color: white;
+  font-size: 20px;
+  background: #4E5255;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option{
+  color: white;
+  font-size: 20px;
+  background-color: #4E5255;
+}
+.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option:checked,
+.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option:hover{
+  background-color:#686C6F;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-bar-number-input {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  align-items: center;
+  flex: 1 1 auto;
+  border: solid 1px #bebebe;
+  order: 2;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-bar-number-input .bar-number-combo {
+  display: flex;
+  flex-direction: row;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-bar-number-input .bar-number-combo #sorting-bar-number {
+  background-color: #4E5255;
+  color: white;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-slider {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  align-items: center;
+  flex: 1 1 auto;
+  border: solid 1px #bebebe;
+  order: 3;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-slider .slider{
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  border-radius: 15px;
+  background: #4E5255;
+}
+
+
+.body-wrapper .top-content .body-controls .body-controls-slider .slider::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  background: #bebebe;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-slider .slider:hover{
+  background:#686C6F;
+}
+
+.body-wrapper .top-content .body-controls .body-controls-buttons {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  align-items: center;
+  justify-items: center;
+  flex: 1 1 auto;
+  border: solid 1px #bebebe;
+  order: 4;
+}
+
+.body-wrapper .top-content .body-controls button{
+  width: 100%;
+  background-color: #4E5255;
+  color: white;
+  -webkit-tap-highlight-color: #686C6F;
+}
+
+.body-wrapper .top-content .body-controls button:hover{
+  background-color:#686C6F;
 }
 
 .body-wrapper .sorting-visualisation {
-  border: solid 1px #ffffff;
+  border: solid 1px #bebebe;
   padding: 5px;
   margin-bottom: 10px;
   margin-top: 5px;
@@ -61,9 +162,13 @@ body {
   align-items: flex-end;
 }
 
-.body-wrapper .sorting-visualisation .bar{
-    border: solid 1px #ffffff;
-    background-color: rgba(255, 255, 255, 0.075);
-    flex-direction: column;
-    width: 0.1%
+.body-wrapper .sorting-visualisation .bar {
+  border: solid 1px #bebebe;
+  background-color: #686C6F;
+  flex-direction: column;
 }
+
+.body-wrapper .sorting-visualisation .selected{
+  background-color: #63a070;
+}
+
