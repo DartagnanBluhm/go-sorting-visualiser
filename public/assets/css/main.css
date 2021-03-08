@@ -17,7 +17,7 @@ body {
 body {
   line-height: 1;
   background: #1b1f22;
-  color: #bebebe;
+  color: white;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 550;
   font-size: 16px;
@@ -64,14 +64,13 @@ body {
 }
 
 .body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown {
-  color: white;
   font-size: 20px;
   background: #4E5255;
 }
 
 .body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option{
-  color: white;
   font-size: 20px;
+  color: white;
   background-color: #4E5255;
 }
 .body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option:checked,
@@ -96,7 +95,6 @@ body {
 
 .body-wrapper .top-content .body-controls .body-controls-bar-number-input .bar-number-combo #sorting-bar-number {
   background-color: #4E5255;
-  color: white;
 }
 
 .body-wrapper .top-content .body-controls .body-controls-slider {
@@ -144,7 +142,6 @@ body {
 .body-wrapper .top-content .body-controls button{
   width: 100%;
   background-color: #4E5255;
-  color: white;
   -webkit-tap-highlight-color: #686C6F;
 }
 
