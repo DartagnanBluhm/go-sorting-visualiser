@@ -1,7 +1,13 @@
 function populateVisualisation(length) {
-    height = document.getElementById("bar-container").clientHeight
-    console.log(height)
-    document.getElementById("bar-container").innerHTML = ""
+    container = document.getElementById("bar-container")
+    width = parseInt(window.getComputedStyle(container, null).getPropertyValue('width'))
+    height = parseInt(window.getComputedStyle(container, null).getPropertyValue('height'))
+    if (length > width/2) {
+        length = Math.floor(width/2);
+        console.log(length)
+    }
+    console.log(width, height)
+    container.innerHTML = ""
     for (i = 0; i < length; i++) {
         value = Math.floor(Math.random() * height + 1)
         var div = document.createElement("div")
@@ -10,7 +16,6 @@ function populateVisualisation(length) {
         div.style.height = value + "px"
         div.style.backgroundColor = "white"
         div.style.flex = "1 1 auto"
-        document.getElementById("bar-container").appendChild(div)
-        console.log(div)
+        container.appendChild(div)
     }
 }
