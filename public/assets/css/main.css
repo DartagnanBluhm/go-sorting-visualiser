@@ -63,19 +63,38 @@ body {
   order: 1;
 }
 
-.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown {
+.body-wrapper
+  .top-content
+  .body-controls
+  .body-controls-algorithm-selector
+  #alg-dropdown {
   font-size: 20px;
-  background: #4E5255;
+  background: #4e5255;
 }
 
-.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option{
+.body-wrapper
+  .top-content
+  .body-controls
+  .body-controls-algorithm-selector
+  #alg-dropdown
+  option {
   font-size: 20px;
   color: white;
-  background-color: #4E5255;
+  background-color: #4e5255;
 }
-.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option:checked,
-.body-wrapper .top-content .body-controls .body-controls-algorithm-selector #alg-dropdown option:hover{
-  background-color:#686C6F;
+.body-wrapper
+  .top-content
+  .body-controls
+  .body-controls-algorithm-selector
+  #alg-dropdown
+  option:checked,
+.body-wrapper
+  .top-content
+  .body-controls
+  .body-controls-algorithm-selector
+  #alg-dropdown
+  option:hover {
+  background-color: #686c6f;
 }
 
 .body-wrapper .top-content .body-controls .body-controls-bar-number-input {
@@ -88,13 +107,22 @@ body {
   order: 2;
 }
 
-.body-wrapper .top-content .body-controls .body-controls-bar-number-input .bar-number-combo {
+.body-wrapper
+  .top-content
+  .body-controls
+  .body-controls-bar-number-input
+  .bar-number-combo {
   display: flex;
   flex-direction: row;
 }
 
-.body-wrapper .top-content .body-controls .body-controls-bar-number-input .bar-number-combo #sorting-bar-number {
-  background-color: #4E5255;
+.body-wrapper
+  .top-content
+  .body-controls
+  .body-controls-bar-number-input
+  .bar-number-combo
+  #sorting-bar-number {
+  background-color: #4e5255;
 }
 
 .body-wrapper .top-content .body-controls .body-controls-slider {
@@ -107,16 +135,19 @@ body {
   order: 3;
 }
 
-.body-wrapper .top-content .body-controls .body-controls-slider .slider{
+.body-wrapper .top-content .body-controls .body-controls-slider .slider {
   -webkit-appearance: none;
   width: 100%;
   height: 25px;
   border-radius: 15px;
-  background: #4E5255;
+  background: #4e5255;
 }
 
-
-.body-wrapper .top-content .body-controls .body-controls-slider .slider::-webkit-slider-thumb{
+.body-wrapper
+  .top-content
+  .body-controls
+  .body-controls-slider
+  .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   background: #bebebe;
   border-radius: 50%;
@@ -124,8 +155,8 @@ body {
   width: 25px;
 }
 
-.body-wrapper .top-content .body-controls .body-controls-slider .slider:hover{
-  background:#686C6F;
+.body-wrapper .top-content .body-controls .body-controls-slider .slider:hover {
+  background: #686c6f;
 }
 
 .body-wrapper .top-content .body-controls .body-controls-buttons {
@@ -139,14 +170,14 @@ body {
   order: 4;
 }
 
-.body-wrapper .top-content .body-controls button{
+.body-wrapper .top-content .body-controls button {
   width: 100%;
-  background-color: #4E5255;
-  -webkit-tap-highlight-color: #686C6F;
+  background-color: #4e5255;
+  -webkit-tap-highlight-color: #686c6f;
 }
 
-.body-wrapper .top-content .body-controls button:hover{
-  background-color:#686C6F;
+.body-wrapper .top-content .body-controls button:hover {
+  background-color: #686c6f;
 }
 
 .body-wrapper .sorting-visualisation {
@@ -161,11 +192,17 @@ body {
 
 .body-wrapper .sorting-visualisation .bar {
   border: solid 1px #bebebe;
-  background-color: #686C6F;
   flex-direction: column;
 }
 
-.body-wrapper .sorting-visualisation .selected{
+.body-wrapper .sorting-visualisation .not-selected {
+  background-color: #686c6f;
+}
+
+.body-wrapper .sorting-visualisation .selected1 {
   background-color: #63a070;
 }
 
+.body-wrapper .sorting-visualisation .selected2 {
+  background-color: #a04e4e;
+}
