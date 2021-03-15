@@ -34,34 +34,31 @@ func sortArray(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data, err := ioutil.ReadAll(r.Body)
+	r.Header.Set("Content-Type", "application/json")
 	if err != nil {
-		rw.WriteHeader(http.StatusInternalServerError)
-		r.Header.Set("Content-Type", "plain/text")
-		rw.Write([]byte(err.Error()))
+		rw.WriteHeader(http.StatusBadRequest)
+		rw.Write([]byte(`{"status":"error","message":"error reading request body -> ` + err.Error() + `"}`))
 		return
 	}
 	arr, algorithm, err := util.ConvertJSONtoArray(data)
 	if err != nil {
 		rw.WriteHeader(http.StatusInternalServerError)
-		r.Header.Set("Content-Type", "plain/text")
-		rw.Write([]byte(err.Error()))
+		rw.Write([]byte(`{"status":"error","message":"error converting json to array -> ` + err.Error() + `"}`))
 		return
 	}
 	changes, err := sorting.Sort(arr, algorithm)
 	if err != nil {
 		rw.WriteHeader(http.StatusInternalServerError)
-		r.Header.Set("Content-Type", "plain/text")
-		rw.Write([]byte(err.Error()))
+		rw.Write([]byte(`{"status":"error","message":"error sorting request -> ` + err.Error() + `"}`))
 		return
 	}
+	fmt.Println(changes)
 	resp, err := json.Marshal(changes)
 	if err != nil {
 		rw.WriteHeader(http.StatusInternalServerError)
-		r.Header.Set("Content-Type", "plain/text")
-		rw.Write([]byte(err.Error()))
+		rw.Write([]byte(`{"status":"error","message":"error marshalling sorted array -> ` + err.Error() + `"}`))
 		return
 	}
-	r.Header.Set("Content-Type", "application/json")
 	rw.WriteHeader(http.StatusOK)
 	rw.Write(resp)
 }

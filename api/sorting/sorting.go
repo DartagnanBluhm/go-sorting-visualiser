@@ -26,7 +26,7 @@ func Sort(arr []int, algorithm string) ([]util.SortChanges, error) {
 	case "bogo":
 		return bogoSort(arr), nil
 	}
-	return []util.SortChanges{}, errors.New("Algorithm type not supported")
+	return []util.SortChanges{}, errors.New("algorithm type not supported")
 }
 
 func insertionSort(arr []int) []util.SortChanges {
@@ -65,8 +65,9 @@ func mergeSort(arr []int) ([]int, []util.SortChanges) {
 		res = append(res, changes...)
 		slice, changes = merge(sliceL, sliceR)
 		res = append(res, changes...)
+		return slice, res
 	}
-	return slice, res
+	return arr, []util.SortChanges{}
 }
 
 func merge(l, r []int) ([]int, []util.SortChanges) {
@@ -74,43 +75,51 @@ func merge(l, r []int) ([]int, []util.SortChanges) {
 	length, i, j := len(l)+len(r), 0, 0
 	all := l
 	all = append(all, r...)
-	var arr []int
+	arr := make([]int, length)
 	for k := 0; k < length; k++ {
 		if i > len(l)-1 && j <= len(r)-1 {
 			arr[k] = r[j]
 			res = append(res, util.SortChanges{
 				FirstIndex:  k,
-				SecondIndex: len(l) - 1 + j,
-				FirstValue:  arr[k],
-				SecondValue: all[len(l)-1+j],
+				SecondIndex: len(l) + j,
+				FirstValue:  all[k],
+				SecondValue: all[len(l)+j],
 			})
+			all[len(l)+j] = all[k]
+			all[k] = arr[k]
 			j++
 		} else if j > len(r)-1 && i <= len(l)-1 {
 			arr[k] = l[i]
 			res = append(res, util.SortChanges{
 				FirstIndex:  k,
 				SecondIndex: i,
-				FirstValue:  arr[k],
+				FirstValue:  all[k],
 				SecondValue: all[i],
 			})
+			all[i] = all[k]
+			all[k] = arr[k]
 			i++
 		} else if l[i] < r[j] {
 			arr[k] = l[i]
 			res = append(res, util.SortChanges{
 				FirstIndex:  k,
 				SecondIndex: i,
-				FirstValue:  arr[k],
+				FirstValue:  all[k],
 				SecondValue: all[i],
 			})
+			all[i] = all[k]
+			all[k] = arr[k]
 			i++
 		} else {
 			arr[k] = r[j]
 			res = append(res, util.SortChanges{
 				FirstIndex:  k,
-				SecondIndex: len(l) - 1 + j,
-				FirstValue:  arr[k],
-				SecondValue: all[len(l)-1+j],
+				SecondIndex: len(l) + j,
+				FirstValue:  all[k],
+				SecondValue: all[len(l)+j],
 			})
+			all[len(l)+j] = all[k]
+			all[k] = arr[k]
 			j++
 		}
 	}
