@@ -191,12 +191,12 @@ body {
 }
 
 .body-wrapper .sorting-visualisation .bar {
-  border: solid 1px #bebebe;
+  border: solid 1px white;
   flex-direction: column;
 }
 
 .body-wrapper .sorting-visualisation .not-selected {
-  background-color: #686c6f;
+  background-color: #4e5255;
 }
 
 .body-wrapper .sorting-visualisation .selected1 {
