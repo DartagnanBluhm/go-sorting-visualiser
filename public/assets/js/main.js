@@ -1,8 +1,15 @@
 var bars = new Array()
 var stop = false
+var sorting = false
+var changesIndex = 0
+var jsonArrayChanges
 
 function shuffleBars() {
+    stop = true
     populateVisualisation(document.getElementById("sorting-bar-number").value)
+    changesIndex = 0
+    window.setTimeout(function () { stop = false; }, 50);
+    sorting = false
 }
 
 function displayValue() {
@@ -38,48 +45,52 @@ function populateVisualisation(length) {
 }
 
 function startSorting() {
-    algType = document.getElementById("alg-dropdown").value
-    var xhr = new XMLHttpRequest()
-    xhr.open("POST", "http://localhost:8000/api/v1/sort", true)
-    xhr.setRequestHeader("Content-Type", "application/json")
-    var arr = new Array()
-    for (i = 0; i < bars.length; i++) {
-        arr.push({ value: document.getElementById(bars[i]).clientHeight })
-    }
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                jsonArrayChanges = JSON.parse(xhr.responseText)
-                animate(jsonArrayChanges)
+    if (!sorting) {
+        if (!stop) {
+            algType = document.getElementById("alg-dropdown").value
+            var xhr = new XMLHttpRequest()
+            xhr.open("POST", "http://localhost:8000/api/v1/sort", true)
+            xhr.setRequestHeader("Content-Type", "application/json")
+            var arr = new Array()
+            for (i = 0; i < bars.length; i++) {
+                arr.push({ value: document.getElementById(bars[i]).clientHeight })
             }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        jsonArrayChanges = JSON.parse(xhr.responseText)
+                        animate(jsonArrayChanges)
+                    }
+                }
+            }
+            xhr.send(JSON.stringify({ algorithmType: algType, arrayLength: bars.length, array: arr }))
+        } else {
+            stop = false
+            animate(jsonArrayChanges)
         }
     }
-    xhr.send(JSON.stringify({ algorithmType: algType, arrayLength: bars.length, array: arr }))
 }
 
-function queueStop(){
+function queueStop() {
     stop = true
 }
 
-function checkStopped() {
-
-}
-
 async function animate(changes) {
+    sorting = true
     if (changes != null) {
-        for (i = 0; i < changes.length; i++) {
+        for (; changesIndex < changes.length; changesIndex++) {
             if (stop) {
-                window.setTimeout(checkStopped, 100)
+                break
             }
-            first = changes[i]["first-index"]
-            second = changes[i]["second-index"]
+            first = changes[changesIndex]["first-index"]
+            second = changes[changesIndex]["second-index"]
             document.getElementById(bars[first]).classList.replace("not-selected", "selected1")
             await sleep(document.getElementById("sort-speed").value)
             document.getElementById(bars[second]).classList.replace("not-selected", "selected2")
             await sleep(document.getElementById("sort-speed").value)
-            document.getElementById(bars[first]).style.height = changes[i]["first-value"] + "px"
+            document.getElementById(bars[first]).style.height = changes[changesIndex]["first-value"] + "px"
             document.getElementById(bars[first]).classList.replace("selected1", "selected2")
-            document.getElementById(bars[second]).style.height = changes[i]["second-value"] + "px"
+            document.getElementById(bars[second]).style.height = changes[changesIndex]["second-value"] + "px"
             document.getElementById(bars[second]).classList.replace("selected2", "selected1")
             await sleep(document.getElementById("sort-speed").value)
             document.getElementById(bars[first]).classList.replace("selected2", "not-selected")
@@ -87,16 +98,18 @@ async function animate(changes) {
             document.getElementById(bars[second]).classList.replace("selected1", "not-selected")
         }
     }
-
-    for (i = bars.length - 1; i > 0; i--) {
-        if (document.getElementById(bars[i]).clientHeight >= document.getElementById(bars[i - 1]).clientHeight) {
-            document.getElementById(bars[i]).classList.replace("not-selected", "selected1")
-        } else {
-            document.getElementById(bars[i]).classList.replace("not-selected", "selected2")
+    if (!stop) {
+        for (i = bars.length - 1; i > 0; i--) {
+            if (document.getElementById(bars[i]).clientHeight >= document.getElementById(bars[i - 1]).clientHeight) {
+                document.getElementById(bars[i]).classList.replace("not-selected", "selected1")
+            } else {
+                document.getElementById(bars[i]).classList.replace("not-selected", "selected2")
+            }
+            await sleep(document.getElementById("sort-speed").value)
         }
-        await sleep(document.getElementById("sort-speed").value)
+        document.getElementById(bars[0]).classList.replace("not-selected", "selected1")
     }
-    document.getElementById(bars[0]).classList.replace("not-selected", "selected1")
+    sorting = false
 }
 
 function sleep(ms) {
