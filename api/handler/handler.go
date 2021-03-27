@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"govisualiser/api/sorting"
 	"govisualiser/api/util"
 	"io/ioutil"
@@ -13,7 +12,7 @@ import (
 const addr = "localhost:8000"
 
 func StartVisualiser() {
-	fmt.Printf("Listening on %s\n", addr)
+	log.Printf("Listening on %s\n", addr)
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./public"))))
 	http.HandleFunc("/home", func(rw http.ResponseWriter, r *http.Request) {
 		http.ServeFile(rw, r, "./public/assets/index.html")
@@ -52,7 +51,6 @@ func sortArray(rw http.ResponseWriter, r *http.Request) {
 		rw.Write([]byte(`{"status":"error","message":"error sorting request -> ` + err.Error() + `"}`))
 		return
 	}
-	fmt.Println(changes)
 	resp, err := json.Marshal(changes)
 	if err != nil {
 		rw.WriteHeader(http.StatusInternalServerError)

@@ -4,28 +4,55 @@ import (
 	"errors"
 	"fmt"
 	"govisualiser/api/util"
+	"math/rand"
+	"time"
 )
 
 func Sort(arr []int, algorithm string) ([]util.SortChanges, error) {
-	fmt.Println(arr)
 	switch algorithm {
 	case "insertion":
-		return insertionSort(arr), nil
+		fmt.Printf("%s - Insertion sort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
+		changes := insertionSort(arr)
+		fmt.Print("done.\n")
+		return changes, nil
 	case "quick":
-		return quickSort(arr), nil
+		fmt.Printf("%s - Quicksort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
+		changes := quickSort(&arr, 0, len(arr)-1)
+		fmt.Print("done.\n")
+		return changes, nil
 	case "merge":
+		fmt.Printf("%s - Mergesort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
 		_, changes := mergeSort(arr, 0)
+		fmt.Print("done.\n")
 		return changes, nil
 	case "bubble":
-		return bubbleSort(arr), nil
+		fmt.Printf("%s - Bubble sort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
+		changes := bubbleSort(arr)
+		fmt.Print("done.\n")
+		return changes, nil
 	case "selection":
-		return selectionSort(arr), nil
+		fmt.Printf("%s - Selection sort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
+		changes := selectionSort(arr)
+		fmt.Print("done.\n")
+		return changes, nil
 	case "heap":
-		return heapSort(arr), nil
+		fmt.Printf("%s - Heapsort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
+		changes := heapSort(arr)
+		fmt.Print("done.\n")
+		return changes, nil
 	case "radix":
-		return radixSort(arr), nil
+		fmt.Printf("%s - Radixsort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
+		changes := radixSort(arr)
+		fmt.Print("done.\n")
+		return changes, nil
 	case "bogo":
-		return bogoSort(arr), nil
+		if len(arr) > 10 {
+			return []util.SortChanges{}, errors.New("Bogosort can only handle an array size of maximum 10")
+		}
+		fmt.Printf("%s - Bogosort request processing...", time.Now().Local().Format("2006/01/02 15:04:05"))
+		changes := bogoSort(arr)
+		fmt.Print("done.\n")
+		return changes, nil
 	}
 	return []util.SortChanges{}, errors.New("algorithm type not supported")
 }
@@ -50,10 +77,41 @@ func insertionSort(arr []int) []util.SortChanges {
 	return res
 }
 
-func quickSort(arr []int) []util.SortChanges {
+func quickSort(arr *[]int, low, high int) []util.SortChanges {
 	var res []util.SortChanges
-
+	if low < high {
+		p, changes := partition(arr, low, high)
+		res = append(res, changes...)
+		res = append(res, quickSort(arr, low, p-1)...)
+		res = append(res, quickSort(arr, p+1, high)...)
+	}
 	return res
+}
+
+func partition(arr *[]int, low, high int) (int, []util.SortChanges) {
+	var res []util.SortChanges
+	p := (*arr)[high]
+	i := low - 1
+	for j := low; j < high; j++ {
+		if (*arr)[j] < p {
+			i++
+			(*arr)[i], (*arr)[j] = (*arr)[j], (*arr)[i]
+			res = append(res, util.SortChanges{
+				FirstIndex:  i,
+				SecondIndex: j,
+				FirstValue:  (*arr)[i],
+				SecondValue: (*arr)[j],
+			})
+		}
+	}
+	(*arr)[i+1], (*arr)[high] = (*arr)[high], (*arr)[i+1]
+	res = append(res, util.SortChanges{
+		FirstIndex:  i + 1,
+		SecondIndex: high,
+		FirstValue:  (*arr)[i+1],
+		SecondValue: (*arr)[high],
+	})
+	return i + 1, res
 }
 
 func mergeSort(arr []int, offset int) ([]int, []util.SortChanges) {
@@ -74,72 +132,56 @@ func mergeSort(arr []int, offset int) ([]int, []util.SortChanges) {
 func merge(l, r []int, offset int) ([]int, []util.SortChanges) {
 	var res []util.SortChanges
 	length, i, j := len(l)+len(r), 0, 0
-	all := make([]int, 0)
-	all = append(all, l...)
-	all = append(all, r...)
 	arr := make([]int, length)
 	for k := 0; k < length; k++ {
-		fmt.Println("arr", arr, "l", l, "r", r, "all", all, "i", i, "j", j, "k", k, "offset", offset)
 		if i >= len(l) {
 			arr[k] = r[j]
-			all[len(l)+j] = all[k]
-			fmt.Print("opt 1-")
-			all[k] = arr[k]
+			res = append(res, util.SortChanges{
+				FirstIndex: offset + k,
+				FirstValue: arr[k],
+			})
 			j++
 		} else if j >= len(r) {
 			arr[k] = l[i]
-			if i != k && all[k] < l[i] {
-				res = append(res, util.SortChanges{
-					FirstIndex:  offset + k,
-					SecondIndex: offset + i,
-					FirstValue:  arr[k],
-					SecondValue: l[i-1],
-				})
-				fmt.Println(res, "opt2")
-				all[k] = arr[k]
-			}
-			fmt.Print("opt 2-")
+			res = append(res, util.SortChanges{
+				FirstIndex: offset + k,
+				FirstValue: arr[k],
+			})
 			i++
 		} else if l[i] < r[j] {
 			arr[k] = l[i]
-			if i != k && all[k] < all[i] {
-				res = append(res, util.SortChanges{
-					FirstIndex:  offset + k,
-					SecondIndex: offset + i,
-					FirstValue:  arr[k],
-					SecondValue: all[k],
-				})
-				fmt.Println(res, "opt3")
-				all[i] = all[k]
-				all[k] = arr[k]
-			}
-			fmt.Print("opt 3-")
+			res = append(res, util.SortChanges{
+				FirstIndex: offset + k,
+				FirstValue: arr[k],
+			})
 			i++
 		} else {
 			arr[k] = r[j]
-			if len(l)+j != k {
-				res = append(res, util.SortChanges{
-					FirstIndex:  offset + k,
-					SecondIndex: offset + len(l) + j,
-					FirstValue:  all[len(l)+j],
-					SecondValue: all[k],
-				})
-				fmt.Println(res, "opt4")
-				temp := all[len(l)+j]
-				all[len(l)+j] = all[k]
-				all[k] = temp
-			}
-
+			res = append(res, util.SortChanges{
+				FirstIndex: offset + k,
+				FirstValue: arr[k],
+			})
 			j++
 		}
 	}
-	fmt.Println(arr, all, "\n")
 	return arr, res
 }
 
 func bubbleSort(arr []int) []util.SortChanges {
 	var res []util.SortChanges
-
+	for i := range arr {
+		for j := 0; j < len(arr)-i-1; j++ {
+			if arr[j] > arr[j+1] {
+				arr[j], arr[j+1] = arr[j+1], arr[j]
+				res = append(res, util.SortChanges{
+					FirstIndex:  j,
+					SecondIndex: j + 1,
+					FirstValue:  arr[j],
+					SecondValue: arr[j+1],
+				})
+			}
+		}
+	}
 	return res
 }
 
@@ -160,7 +202,6 @@ func selectionSort(arr []int) []util.SortChanges {
 			SecondValue: arr[min],
 		})
 	}
-	fmt.Println(arr)
 	return res
 }
 
@@ -183,7 +224,6 @@ func heapSort(arr []int) []util.SortChanges {
 		c := heap(&arr, i, 0)
 		res = append(res, c...)
 	}
-	fmt.Println(arr)
 	return res
 }
 
@@ -236,12 +276,48 @@ func radixGetMax(arr []int) int {
 
 func radixCountingSort(arr *[]int, e int) []util.SortChanges {
 	var res []util.SortChanges
-
+	count := make([]int, 10)
+	output := make([]int, len(*arr))
+	for i := range *arr {
+		count[((*arr)[i]/e)%10]++
+	}
+	for i := 1; i < 10; i++ {
+		count[i] += count[i-1]
+	}
+	for j := len(*arr) - 1; j >= 0; j-- {
+		res = append(res, util.SortChanges{
+			FirstIndex: count[((*arr)[j]/e)%10] - 1,
+			FirstValue: (*arr)[j],
+		})
+		output[count[((*arr)[j]/e)%10]-1] = (*arr)[j]
+		count[((*arr)[j]/e)%10]--
+	}
+	*arr = output
 	return res
 }
 
 func bogoSort(arr []int) []util.SortChanges {
 	var res []util.SortChanges
-
+	for !sorted(arr) {
+		rand.Seed(time.Now().UnixNano())
+		rand.Shuffle(len(arr), func(i, j int) {
+			arr[i], arr[j] = arr[j], arr[i]
+			res = append(res, util.SortChanges{
+				FirstIndex:  i,
+				SecondIndex: j,
+				FirstValue:  arr[i],
+				SecondValue: arr[j],
+			})
+		})
+	}
 	return res
+}
+
+func sorted(arr []int) bool {
+	for i := 1; i < len(arr); i++ {
+		if arr[i-1] > arr[i] {
+			return false
+		}
+	}
+	return true
 }
